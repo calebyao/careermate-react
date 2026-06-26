@@ -1,14 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./Index.css";
+
+// 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
+function mockLogin(email, password) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (email === "test@test.com" && password === "123456") {
+        resolve();
+      } else {
+        reject(new Error("Incorrect email or password"));
+      }
+    }, 1000);
+  });
+}
 
 // Login 页面:标题 + Email 输入框 + Password 输入框 + Login 按钮
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");       // 邮箱错误信息
-  const [passwordError, setPasswordError] = useState(""); // 密码错误信息
-  const navigate = useNavigate(); // 路由跳转
+  const [emailError, setEmailError] = useState("");       // 邮箱格式错误
+  const [passwordError, setPasswordError] = useState(""); // 密码格式错误
+
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [error, setError] = useState("");       // 登录失败原因
 
   // 输入 Email 时即时校验:不能为空、必须含 @、长度 ≤ 50
   function emailChange(e) {
@@ -42,16 +56,22 @@ function Login() {
     }
   }
 
-  // 提交登录(此处仅作演示,真实项目会先校验账号密码再跳转)
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 登录成功后跳转到首页
-    navigate("/home");
-  };
+  // 登录处理:loading → 调用 mockLogin → success / error
+  async function handleLogin() {
+    setError("");
+    setStatus("loading");
+    try {
+      await mockLogin(email, password);
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setError(err.message);
+    }
+  }
 
   return (
     <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit}>
+      <form className="login-card" onSubmit={(e) => e.preventDefault()}>
         {/* 品牌名 */}
         <h2 className="login-brand">CareerMate AI</h2>
 
@@ -69,7 +89,6 @@ function Login() {
             value={email}
             onChange={emailChange}
           />
-          {/* 条件渲染:emailError 有值才显示 */}
           {emailError && <p className="error-message">{emailError}</p>}
         </div>
 
@@ -83,7 +102,6 @@ function Login() {
             value={password}
             onChange={passwordChange}
           />
-          {/* 条件渲染:passwordError 有值才显示 */}
           {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
 
@@ -93,10 +111,23 @@ function Login() {
           <p>Password: {password}</p>
         </div>
 
-        {/* Login 按钮 */}
-        <button type="submit" className="login-btn">
-          Login
+        {/* Login 按钮:loading 时显示 "Logging in..." */}
+        <button
+          type="button"
+          className="login-btn"
+          onClick={handleLogin}
+          disabled={status === "loading"}
+        >
+          {status === "loading" ? "Logging in..." : "Login"}
         </button>
+
+        {/* 登录失败消息 */}
+        {status === "error" && <p className="error-message">{error}</p>}
+
+        {/* 登录成功消息 */}
+        {status === "success" && (
+          <p className="success-message">Login Success</p>
+        )}
       </form>
     </div>
   );
