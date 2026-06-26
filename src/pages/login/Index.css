@@ -74,6 +74,27 @@
   box-shadow: 0 0 0 3px rgba(80, 79, 253, 0.12);
 }
 
+/* 邮箱错误提示 */
+.error-message {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #ef4444;
+}
+
+/* 实时输入预览 */
+.login-preview {
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333333;
+  word-break: break-all;
+}
+
+.login-preview p {
+  margin: 2px 0;
+}
+
 .login-btn {
   margin-top: 8px;
   padding: 13px;

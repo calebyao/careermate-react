@@ -2,11 +2,30 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Index.css";
 
+// 简单的邮箱格式校验
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Login 页面:标题 + Email 输入框 + Password 输入框 + Login 按钮
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(""); // 邮箱错误信息
   const navigate = useNavigate(); // 路由跳转
+
+  // Email 输入时:更新 state 并即时校验
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // 即时校验:为空或格式不对时给出提示,否则清空错误
+    if (value === "") {
+      setEmailError("Email is required.");
+    } else if (!EMAIL_RE.test(value)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+  };
 
   // 提交登录(此处仅作演示,真实项目会先校验账号密码再跳转)
   const handleSubmit = (e) => {
@@ -33,8 +52,10 @@ function Login() {
             type="email"
             placeholder="you@example.com"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
           />
+          {/* 条件渲染:emailError 有值才显示错误 */}
+          {emailError && <p className="error-message">{emailError}</p>}
         </div>
 
         {/* Password 输入框 */}
@@ -47,6 +68,12 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+        </div>
+
+        {/* 实时显示用户输入的内容 */}
+        <div className="login-preview">
+          <p>Email: {email}</p>
+          <p>Password: {password}</p>
         </div>
 
         {/* Login 按钮 */}
