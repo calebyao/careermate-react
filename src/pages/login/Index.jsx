@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Index.css";
 
 // 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
@@ -128,6 +129,11 @@ function Login() {
         {status === "success" && (
           <p className="success-message">Login Success</p>
         )}
+
+        {/* 去注册 */}
+        <p className="login-footer">
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </form>
     </div>
   );

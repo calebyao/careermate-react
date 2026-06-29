@@ -90,6 +90,24 @@
   color: #10b981;
 }
 
+/* 去注册链接 */
+.login-footer {
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+  margin: 4px 0 0 0;
+}
+
+.login-footer a {
+  color: #504ffd;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}
+
 /* 实时输入预览 */
 .login-preview {
   background-color: #f5f5f5;
