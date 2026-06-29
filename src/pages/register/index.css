@@ -98,6 +98,14 @@
   color: #10b981;
 }
 
+/* 校验错误提示 */
+.error-message {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: #ef4444;
+}
+
 .register-footer {
   text-align: center;
   font-size: 14px;

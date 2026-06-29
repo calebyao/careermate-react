@@ -19,10 +19,30 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [status, setStatus] = useState("idle"); // idle | loading | success
+  const [error, setError] = useState("");       // 校验错误信息
   const navigate = useNavigate(); // 路由跳转
 
-  // 注册处理:loading → 调用 mockRegister → success → 跳回登录页
+  // 校验输入:返回错误信息,合法则返回空字符串
+  function validate() {
+    if (!name.trim()) return "Name is required";
+    if (!email.trim()) return "Email is required";
+    if (!password.trim()) return "Password is required";
+    if (!confirmPassword.trim()) return "Confirm Password is required";
+    if (!email.includes("@")) return "Invalid email format";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (password !== confirmPassword) return "Passwords do not match";
+    return "";
+  }
+
+  // 注册处理:先校验,合法才 loading → mockRegister → success → 跳回登录页
   async function handleRegister() {
+    const message = validate();
+    if (message) {
+      setError(message); // 校验失败:显示错误,禁止注册
+      return;
+    }
+
+    setError("");
     setStatus("loading");
     await mockRegister();
     setStatus("success"); // 显示 "Register success"
@@ -96,6 +116,9 @@ function Register() {
         >
           {status === "loading" ? "Registering..." : "Register"}
         </button>
+
+        {/* 校验错误消息 */}
+        {error && <p className="error-message">{error}</p>}
 
         {/* 注册成功消息 */}
         {status === "success" && (
