@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 // Register 页面:Name + Email + Password + Confirm Password + Register 按钮
@@ -8,6 +8,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate(); // 路由跳转
 
   return (
     <div className="register-page">
@@ -69,9 +70,12 @@ function Register() {
           Register
         </button>
 
-        {/* 返回登录 */}
+        {/* 返回登录:点击跳转到 / */}
         <p className="register-footer">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{" "}
+          <span className="link-text" onClick={() => navigate("/")}>
+            Login
+          </span>
         </p>
       </form>
     </div>

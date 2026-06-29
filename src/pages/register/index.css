@@ -89,12 +89,12 @@
   margin: 4px 0 0 0;
 }
 
-.register-footer a {
+.register-footer .link-text {
   color: #504ffd;
   font-weight: 600;
-  text-decoration: none;
+  cursor: pointer;
 }
 
-.register-footer a:hover {
+.register-footer .link-text:hover {
   text-decoration: underline;
 }

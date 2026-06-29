@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Index.css";
 
 // 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
@@ -24,6 +24,7 @@ function Login() {
 
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [error, setError] = useState("");       // 登录失败原因
+  const navigate = useNavigate();               // 路由跳转
 
   // 输入 Email 时即时校验:不能为空、必须含 @、长度 ≤ 50
   function emailChange(e) {
@@ -130,9 +131,12 @@ function Login() {
           <p className="success-message">Login Success</p>
         )}
 
-        {/* 去注册 */}
+        {/* 去注册:点击跳转到 /register */}
         <p className="login-footer">
-          Don't have an account? <Link to="/register">Register</Link>
+          Don't have an account?{" "}
+          <span className="link-text" onClick={() => navigate("/register")}>
+            Register
+          </span>
         </p>
       </form>
     </div>
