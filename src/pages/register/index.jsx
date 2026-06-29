@@ -2,13 +2,35 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
 
+// 模拟后端注册 API:等待 1 秒后成功
+function mockRegister() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+}
+
 // Register 页面:Name + Email + Password + Confirm Password + Register 按钮
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [status, setStatus] = useState("idle"); // idle | loading | success
   const navigate = useNavigate(); // 路由跳转
+
+  // 注册处理:loading → 调用 mockRegister → success → 跳回登录页
+  async function handleRegister() {
+    setStatus("loading");
+    await mockRegister();
+    setStatus("success"); // 显示 "Register success"
+    // 稍作停留让用户看到成功提示,然后进入登录页
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  }
 
   return (
     <div className="register-page">
@@ -65,10 +87,20 @@ function Register() {
           />
         </div>
 
-        {/* Register 按钮 */}
-        <button type="submit" className="register-btn">
-          Register
+        {/* Register 按钮:loading 时显示 "Registering..." */}
+        <button
+          type="button"
+          className="register-btn"
+          onClick={handleRegister}
+          disabled={status === "loading"}
+        >
+          {status === "loading" ? "Registering..." : "Register"}
         </button>
+
+        {/* 注册成功消息 */}
+        {status === "success" && (
+          <p className="success-message">Register success</p>
+        )}
 
         {/* 返回登录:点击跳转到 / */}
         <p className="register-footer">
