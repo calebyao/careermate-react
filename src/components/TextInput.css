@@ -1,0 +1,35 @@
+/* 可复用输入框样式 */
+.text-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.text-input label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.text-input input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: #161616;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.text-input input:focus {
+  border-color: #504ffd;
+  box-shadow: 0 0 0 3px rgba(80, 79, 253, 0.12);
+}
+
+/* 字段错误提示 */
+.text-input .error-message {
+  margin: 0;
+  font-size: 13px;
+  color: #ef4444;
+}

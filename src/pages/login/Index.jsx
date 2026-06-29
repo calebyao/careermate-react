@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../components/TextInput";
 import "./Index.css";
 
 // 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
@@ -81,31 +82,27 @@ function Login() {
         <h1 className="login-title">Login</h1>
         <p className="login-subtitle">Welcome back! Please sign in to continue.</p>
 
-        {/* Email 输入框 */}
-        <div className="login-field">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={emailChange}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
+        {/* Email 输入框(复用 TextInput) */}
+        <TextInput
+          id="email"
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={emailChange}
+          error={emailError}
+        />
 
-        {/* Password 输入框 */}
-        <div className="login-field">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={passwordChange}
-          />
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
+        {/* Password 输入框(复用 TextInput) */}
+        <TextInput
+          id="password"
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={passwordChange}
+          error={passwordError}
+        />
 
         {/* 实时显示用户输入的内容 */}
         <div className="login-preview">

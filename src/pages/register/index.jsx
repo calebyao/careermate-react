@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../components/TextInput";
 import "./index.css";
 
 // 模拟后端注册 API:等待 1 秒后成功
@@ -59,53 +60,45 @@ function Register() {
         <h1 className="register-title">CareerMate Register</h1>
         <p className="register-subtitle">Create your account to get started.</p>
 
-        {/* Name */}
-        <div className="register-field">
-          <label htmlFor="name">Name</label>
-          <input
-            id="name"
-            type="text"
-            placeholder="Your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+        {/* Name(复用 TextInput) */}
+        <TextInput
+          id="name"
+          label="Name"
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-        {/* Email */}
-        <div className="register-field">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        {/* Email(复用 TextInput) */}
+        <TextInput
+          id="email"
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        {/* Password */}
-        <div className="register-field">
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        {/* Password(复用 TextInput) */}
+        <TextInput
+          id="password"
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        {/* Confirm Password */}
-        <div className="register-field">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            placeholder="Re-enter your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
+        {/* Confirm Password(复用 TextInput) */}
+        <TextInput
+          id="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          placeholder="Re-enter your password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
 
         {/* Register 按钮:loading 时显示 "Registering..." */}
         <button
