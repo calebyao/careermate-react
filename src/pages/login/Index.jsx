@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/TextInput";
+import useEmail from "../../hooks/useEmail";
 import "./Index.css";
 
 // 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
@@ -18,30 +19,15 @@ function mockLogin(email, password) {
 
 // Login 页面:标题 + Email 输入框 + Password 输入框 + Login 按钮
 function Login() {
-  const [email, setEmail] = useState("");
+  // Email 状态逻辑复用自定义 Hook
+  const { email, emailError, emailChange } = useEmail();
+
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");       // 邮箱格式错误
   const [passwordError, setPasswordError] = useState(""); // 密码格式错误
 
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
   const [error, setError] = useState("");       // 登录失败原因
   const navigate = useNavigate();               // 路由跳转
-
-  // 输入 Email 时即时校验:不能为空、必须含 @、长度 ≤ 50
-  function emailChange(e) {
-    const value = e.target.value;
-    setEmail(value);
-
-    if (!value.trim()) {
-      setEmailError("Email is required");
-    } else if (!value.includes("@")) {
-      setEmailError("Invalid email format");
-    } else if (value.length > 50) {
-      setEmailError("Email must be less than 50 characters");
-    } else {
-      setEmailError("");
-    }
-  }
 
   // 输入 Password 时即时校验:不能为空、至少 6 位、不超过 20 位
   function passwordChange(e) {

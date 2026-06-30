@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/TextInput";
+import useEmail from "../../hooks/useEmail";
 import "./index.css";
 
 // 模拟后端注册 API:等待 1 秒后成功
@@ -15,7 +16,7 @@ function mockRegister() {
 // Register 页面:Name + Email + Password + Confirm Password + Register 按钮
 function Register() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const { email, emailError, emailChange } = useEmail(); // Email 逻辑复用 Hook
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -70,14 +71,15 @@ function Register() {
           onChange={(e) => setName(e.target.value)}
         />
 
-        {/* Email(复用 TextInput) */}
+        {/* Email(复用 TextInput + useEmail Hook) */}
         <TextInput
           id="email"
           label="Email"
           type="email"
           placeholder="you@example.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={emailChange}
+          error={emailError}
         />
 
         {/* Password(复用 TextInput) */}
