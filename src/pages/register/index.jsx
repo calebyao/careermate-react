@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/TextInput";
 import useEmail from "../../hooks/useEmail";
+import { validateRegister } from "../../utils/validators";
 import "./index.css";
 
 // 模拟后端注册 API:等待 1 秒后成功
@@ -24,23 +25,11 @@ function Register() {
   const [error, setError] = useState("");       // 校验错误信息
   const navigate = useNavigate(); // 路由跳转
 
-  // 校验输入:返回错误信息,合法则返回空字符串
-  function validate() {
-    if (!name.trim()) return "Name is required";
-    if (!email.trim()) return "Email is required";
-    if (!password.trim()) return "Password is required";
-    if (!confirmPassword.trim()) return "Confirm Password is required";
-    if (!email.includes("@")) return "Invalid email format";
-    if (password.length < 6) return "Password must be at least 6 characters";
-    if (password !== confirmPassword) return "Passwords do not match";
-    return "";
-  }
-
   // 注册处理:先校验,合法才 loading → mockRegister → success → 跳回登录页
   async function handleRegister() {
-    const message = validate();
-    if (message) {
-      setError(message); // 校验失败:显示错误,禁止注册
+    const errMsg = validateRegister(name, email, password, confirmPassword);
+    if (errMsg) {
+      setError(errMsg); // 校验失败:显示错误,禁止注册
       return;
     }
 

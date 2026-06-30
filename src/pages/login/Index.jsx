@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/TextInput";
 import useEmail from "../../hooks/useEmail";
+import { validateLogin } from "../../utils/validators";
 import "./Index.css";
 
 // 模拟后端登录 API:等待 1 秒,账号密码正确则成功,否则失败
@@ -45,8 +46,15 @@ function Login() {
     }
   }
 
-  // 登录处理:loading → 调用 mockLogin → success / error
+  // 登录处理:先集中校验 → loading → 调用 mockLogin → success / error
   async function handleLogin() {
+    const errMsg = validateLogin(email, password);
+    if (errMsg) {
+      setStatus("error");
+      setError(errMsg); // 校验失败:显示错误,不发请求
+      return;
+    }
+
     setError("");
     setStatus("loading");
     try {
